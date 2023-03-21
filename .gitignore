@@ -101,3 +101,5 @@ lint/tmp/
 gas-report.txt
 .issue.md
 typechain-types
+
+yarn.lock
