@@ -12,7 +12,7 @@ contract Raccoons is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
     // Events
     event NFTRequested(uint256 indexed requestId, address requester);
     // event NFTMinted(NinjaType ninjaType, address minter);
-    address owner;
+    address private _owner;
 
     // Variables NFT
     uint256 internal immutable i_mintFee;
@@ -40,7 +40,7 @@ contract Raccoons is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
     ) VRFConsumerBaseV2(vrfCoordinatorV2Address) ERC721("Raccoons", "COONS") {
         i_mintFee = mintFee;
         s_tokenCounter = 0;
-        owner = msg.sender;
+        _owner = msg.sender;
         // Variables Chainlink VRF
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2Address);
         i_subscriptionId = subscriptionID;
@@ -103,7 +103,7 @@ contract Raccoons is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
     }
 
     function withdraw() public onlyOwner {
-        require(msg.sender == owner, "You are not the owner!");
+        require(msg.sender == _owner, "You are not the owner!");
         uint256 amount = address(this).balance;
         (bool success, ) = payable(msg.sender).call{value: amount}("");
 
